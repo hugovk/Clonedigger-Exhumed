@@ -13,6 +13,8 @@ the appropriate options to ``use_setuptools()``.
 
 This file can also be run as a script to install or upgrade setuptools.
 """
+from __future__ import print_function
+import os
 import sys
 DEFAULT_VERSION = "0.6c8"
 DEFAULT_URL     = "http://pypi.python.org/packages/%s/s/setuptools/" % sys.version[:3]
@@ -50,15 +52,14 @@ md5_data = {
     'setuptools-0.6c8-py2.5.egg': '1721747ee329dc150590a58b3e1ac95b',
 }
 
-import sys, os
-
 def _validate_md5(egg_name, data):
     if egg_name in md5_data:
         from md5 import md5
         digest = md5(data).hexdigest()
         if digest != md5_data[egg_name]:
-            print("md5 validation of %s failed!  (Possible download problem?)"
-                % egg_name, file=sys.stderr)
+            print(
+                "md5 validation of", egg_name, "failed!  (Possible download problem?)",
+                file=sys.stderr)
             sys.exit(2)
     return data
 
@@ -95,7 +96,7 @@ def use_setuptools(
             "can't be installed while this script is running. Please install\n"
             " a more recent version first, using 'easy_install -U setuptools'."
             "\n\n(Currently using %r)"
-            ) % (version, e.args[0]), file=sys.stderr)
+             % (version, e.args[0]), file=sys.stderr)
             sys.exit(2)
         else:
             del pkg_resources, sys.modules['pkg_resources']    # reload ok
@@ -114,7 +115,7 @@ def download_setuptools(
     with a '/'). `to_dir` is the directory where the egg will be downloaded.
     `delay` is the number of seconds to pause before an actual download attempt.
     """
-    import urllib2, shutil
+    import urllib2
     egg_name = "setuptools-%s-py%s.egg" % (version,sys.version[:3])
     url = download_base + egg_name
     saveto = os.path.join(to_dir, egg_name)
