@@ -1,8 +1,18 @@
 language: python
+
 python:
-- '2.6'
-- '2.7'
-- '3.2'
-- '3.3'
+- 2.6
+- 2.7
+- 3.2
+- 3.3
+- pypy
+
 install: pip install -e .
+
 script: clonedigger .
+
+matrix:
+  allow_failures:
+    - python: 3.2
+    - python: 3.3
+    - python: pypy
